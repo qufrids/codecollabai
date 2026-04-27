@@ -8,9 +8,40 @@ import { setupYjsWebSocket } from "./websocket/yjsServer";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
-app.use(cors());
+// ── CORS ──────────────────────────────────────────────────
+
+const allowedOrigins = [
+  FRONTEND_URL,
+  "http://localhost:3000",
+  /^https:\/\/.*\.vercel\.app$/,
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (server-to-server, curl, etc.)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.some((o) => (typeof o === "string" ? o === origin : o.test(origin)))) {
+        return callback(null, true);
+      }
+      console.warn(`Blocked by CORS: ${origin}`);
+      return callback(null, false);
+    },
+    credentials: true,
+  })
+);
+
 app.use(express.json());
+
+// ── Health check ──────────────────────────────────────────
+
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
+// ── Public routes ─────────────────────────────────────────
 
 app.get("/", (_req, res) => {
   res.send("API is running");
@@ -148,4 +179,5 @@ setupYjsWebSocket(server);
 
 server.listen(PORT, () => {
   console.log(`API server running on http://localhost:${PORT}`);
+  console.log(`CORS origin: ${FRONTEND_URL}`);
 });
