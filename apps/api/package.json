@@ -8,6 +8,7 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.1.6",
     "@prisma/client": "^6.6.0",
     "cors": "^2.8.5",
     "express": "^4.21.2"

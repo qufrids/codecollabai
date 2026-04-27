@@ -13,4 +13,27 @@ model User {
   email     String
   name      String?
   createdAt DateTime @default(now())
+
+  memberships RoomMember[]
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  name      String
+  ownerId   String
+  createdAt DateTime @default(now())
+
+  members RoomMember[]
+}
+
+model RoomMember {
+  id     String @id @default(cuid())
+  roomId String
+  userId String
+  role   String @default("editor")
+
+  room Room @relation(fields: [roomId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([roomId, userId])
 }
