@@ -1,7 +1,12 @@
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 
-const WS_URL = "ws://localhost:4000/ws";
+/**
+ * WebSocket URL for Yjs collaboration.
+ * Set NEXT_PUBLIC_WS_URL to your deployed Render backend WebSocket URL (e.g. wss://your-app.onrender.com/ws).
+ * Falls back to ws://localhost:4000/ws for local development.
+ */
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:4000/ws";
 
 const docs = new Map<string, Y.Doc>();
 const providers = new Map<string, WebsocketProvider>();

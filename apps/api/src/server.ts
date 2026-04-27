@@ -35,6 +35,21 @@ app.use(
 
 app.use(express.json());
 
+// ── Request logging ────────────────────────────────────────
+
+app.use((req, _res, next) => {
+  const start = Date.now();
+  const origin = req.headers["origin"] || req.headers["referer"] || "unknown";
+  console.log(`→ ${req.method} ${req.originalUrl} | origin: ${origin}`);
+
+  _res.on("finish", () => {
+    const ms = Date.now() - start;
+    console.log(`← ${req.method} ${req.originalUrl} → ${_res.statusCode} (${ms}ms)`);
+  });
+
+  next();
+});
+
 // ── Health check ──────────────────────────────────────────
 
 app.get("/health", (_req, res) => {

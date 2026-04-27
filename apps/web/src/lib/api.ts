@@ -1,4 +1,9 @@
-const BASE_URL = "http://localhost:4000";
+/**
+ * Base URL for the backend API.
+ * Set NEXT_PUBLIC_API_URL to your deployed Render backend URL (e.g. https://your-app.onrender.com).
+ * Falls back to localhost:4000 for local development.
+ */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 async function fetchWithAuth(url: string, options: RequestInit = {}) {
   const res = await fetch(`${BASE_URL}${url}`, {
