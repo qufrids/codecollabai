@@ -1,5 +1,19 @@
-node_modules/
-dist/
-.next/
+# env files
 .env
+.env.local
+.env.*.local
+
+# app-level env files
+apps/*/.env
+apps/*/.env.local
+
+# node
+node_modules/
+.next/
+dist/
+
+# prisma
+prisma/migrations/
+
+# logs
 *.log
