@@ -138,6 +138,12 @@ export default function DashboardPage() {
                     · Created {new Date(room.createdAt).toLocaleDateString()}
                   </p>
                 </div>
+                <a
+                  href={`/room/${room.id}`}
+                  className="rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+                >
+                  Open Room
+                </a>
               </div>
             ))}
           </div>

@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
+import http from "http";
 import { prisma } from "./db/prisma";
 import { requireAuth } from "./middleware/auth";
 import { syncUser } from "./services/user.service";
+import { setupYjsWebSocket } from "./websocket/yjsServer";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -139,6 +141,11 @@ app.get("/rooms", requireAuth, async (req: any, res: any) => {
   }
 });
 
-app.listen(PORT, () => {
+// ── HTTP + WebSocket server ───────────────────────────────
+
+const server = http.createServer(app);
+setupYjsWebSocket(server);
+
+server.listen(PORT, () => {
   console.log(`API server running on http://localhost:${PORT}`);
 });
