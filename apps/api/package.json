@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "build": "tsc",
+    "buildyarn": "tsc",
     "start": "node dist/server.js",
     "postinstall": "prisma generate --schema=../../prisma/schema.prisma"
   },
